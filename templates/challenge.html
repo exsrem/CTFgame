@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Çok Gizli Dizini Ben{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Çok Gizli Dizini Ben</h2>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #D5006D;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="{{ url_for('home') }}">🏠 Ana Sayfa</a>
+            <div class="d-flex">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('scoreboard') }}" class="btn btn-outline-light me-2">🏆 Scoreboard</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-light">🚪 Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2">🔑 Login</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-light">📝 Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+    {% if flag_correct %}
+        <div class="alert alert-success">🎉 Flag doğru! Skorunuz güncellendi.</div>
+    {% endif %}
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="text-center mb-4">
+        <img src="{{ url_for('download', image=image) }}" alt="Gizli Resim" class="img-fluid rounded shadow" style="max-width: 400px;">
+    </div>
+    
+    <div class="text-center mb-4">
+        <a href="{{ url_for('download', image=image) }}" class="btn btn-secondary">📥 Resmi İndir</a>
+    </div>
+    
+    <form method="POST">
+        <div class="mb-3">
+            <label for="flag" class="form-label">🏁 Flag:</label>
+            <input type="text" class="form-control" name="flag" id="flag" required>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">✅ Gönder</button>
+        </div>
+    </form>
+    
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('home') }}" class="btn btn-link">🏠 Anasayfaya Dön</a>
+    </div>
+</div>
+
+{% endblock %}
