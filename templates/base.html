@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}CTF Challenge{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Navbar için pembe-bordo renk */
+        .custom-navbar {
+            background-color: #8B1C62; /* Pembe-Bordo Arası Renk */
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #FFD700 !important; /* Altın Sarısı */
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: bold;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container-fluid">
+        <!-- Sol: Kullanıcı Oturumu -->
+        <div class="navbar-nav">
+            {% if session.get('user_id') %}
+                <a class="nav-link" href="{{ url_for('logout') }}">🚪 Logout</a>
+            {% else %}
+                <a class="nav-link" href="{{ url_for('login') }}">🔑 Login</a>
+                <a class="nav-link" href="{{ url_for('register') }}">📝 Register</a>
+            {% endif %}
+        </div>
+
+        <!-- Orta: Scoreboard -->
+        <div class="mx-auto">
+            <a class="nav-link" href="{{ url_for('scoreboard') }}">🏆 Scoreboard</a>
+        </div>
+
+        <!-- Sağ: Ana Sayfa -->
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="{{ url_for('home') }}">🏠 Home</a>
+        </div>
+
+    </div>
+</nav>
+
+<!-- Sayfa İçeriği -->
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
