@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt Ol{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">📝 Kayıt Ol</h2>
+                    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #D5006D;">
+                        <div class="container-fluid">
+                          <a class="navbar-brand text-white" href="{{ url_for('home') }}">🏠 Ana Sayfa</a>
+                          <div class="d-flex">
+                            {% if 'user_id' in session %}
+                              <!-- Logged In -->
+                              <a href="{{ url_for('scoreboard') }}" class="btn btn-outline-light me-2">🏆 Scoreboard</a>
+                              <a href="{{ url_for('logout') }}" class="btn btn-outline-light">🚪 Logout</a>
+                            {% else %}
+                              <!-- Not Logged In -->
+                              <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2">🔑 Login</a>
+                              <a href="{{ url_for('register') }}" class="btn btn-outline-light">📝 Register</a>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </nav>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">👤 Kullanıcı Adı:</label>
+                            <input type="text" class="form-control" name="username" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">🔑 Şifre:</label>
+                            <input type="password" class="form-control" name="password" id="password" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">✅ Kayıt Ol</button>
+                        </div>
+                    </form>
+
+                    <p class="mt-3 text-center">Zaten bir hesabınız var mı? <a href="{{ url_for('login') }}">🔑 Giriş Yap</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
