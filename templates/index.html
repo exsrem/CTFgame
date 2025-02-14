@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Hoş geldin, {{ user.username }}!</h1>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #D5006D;">
+        <div class="container-fluid">
+          <a class="navbar-brand text-white" href="{{ url_for('home') }}">🏠 Ana Sayfa</a>
+          <div class="d-flex">
+            {% if 'user_id' in session %}
+              <!-- Logged In -->
+              <a href="{{ url_for('scoreboard') }}" class="btn btn-outline-light me-2">🏆 Scoreboard</a>
+              <a href="{{ url_for('logout') }}" class="btn btn-outline-light">🚪 Logout</a>
+            {% else %}
+              <!-- Not Logged In -->
+              <a href="{{ url_for('login') }}" class="btn btn-outline-light me-2">🔑 Login</a>
+              <a href="{{ url_for('register') }}" class="btn btn-outline-light">📝 Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    <p class="mb-4">CTF'ye hoş geldin! Seviye seçerek başlamalısın.</p>
+    
+    <a href="{{ url_for('scoreboard') }}" class="btn btn-primary mb-4">🏆 Scoreboard'a Git</a>
+
+    <p class="mb-4">Skorunuz: <strong>{{ user.score }}</strong></p>
+
+    <div class="row">
+        {% for level in range(1, 5) %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Seviye {{ level }}</h5>
+                    <a href="{{ url_for('level', level=level) }}" class="btn btn-primary">Oyna</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
